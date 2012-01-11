@@ -190,14 +190,3 @@ Ext.ux.ODataProxy = Ext.extend(Ext.data.RestProxy, {
 
 // finally, register the proxy type 'odata'
 Ext.data.ProxyMgr.registerType('odata', Ext.ux.ODataProxy);
-
-
-
-
-
-
-
-
-
-
-
