@@ -9,7 +9,6 @@ Ext.ux.ODataProxy features:
 
 * create, read, update and delete SharePoint items as Sencha Touch models
 * fetch multiple SharePoint items from a list in a Sencha Touch store
-* support for OData query string options (orderby, filter, select, etc)
 * JSON payloads
 * partial updates: only changed attributes are sent to the server during an update
 
@@ -60,7 +59,7 @@ example.apsx:
 
 ## <a name="examples"/>Examples
 
-Now let's look at some examples how you can use Backbone.SharePoint. In these examples we will assume you have 
+Now let's look at some examples how you can use the SharePoint proxy. In these examples we will assume you have 
 a subsite '/teamsite' in which you have 
 created a Contacts list based on the standard contacts list template. 
 
@@ -144,7 +143,7 @@ store.load()
 
 
 
-Hopefully this is useful!
+Hopefully this is enough to get you started!
 
 
 
