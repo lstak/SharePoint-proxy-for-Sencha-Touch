@@ -11,7 +11,6 @@
 
 
 
-
 // Sencha Touch 1.x doesn't implement the model.destroy() method,
 // so we define it here in an override.
 // The code is adapted from the save method.
