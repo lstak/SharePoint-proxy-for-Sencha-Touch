@@ -1,7 +1,7 @@
 ﻿Ext.ux.ODataProxy
 ===================
 
-Ext.ux.ODataProxy is a Sencha Touch OData proxy. It is designed to let Sencha Touch access SharePoint data using the 
+Ext.ux.ODataProxy is a OData proxy for Sencha Touch. It is designed to let Sencha Touch access SharePoint data using the 
 SharePoint ListData.svc REST service which is based on [OData](http://www.odata.org). You may use it for other OData sources.
 
 
@@ -56,7 +56,6 @@ example.apsx:
 	</body>
 </html>
 
-
 ```
 
 ## <a name="examples"/>Examples
@@ -70,7 +69,7 @@ First we need to define the Model. In this example we will connect to a SharePoi
 ```js
 var Contact = Ext.regModel('Contact', {
   fields: [
-      // please note CamelCase convention for SharePoint columns
+      // please note CamelCase convention for SharePoint column names
       { name: 'Id', type: 'int' },
       'LastName',
       'FirstName'
@@ -94,19 +93,19 @@ We can now use the CRUD operations on the Contact data model:
 ```js
 
 
-// CREATE an instance
+// Create an instance
 var contact = new Contact({ LastName: 'Johnson', FirstName: 'Al' })
 contact.save();
 ...
 
 
-// READ an instance from the server by id
+// Read an instance from the server by id
 var id = 200;
 Contact.load(id);
 ...
 
 
-// UPDATE an instance, loaded from the server
+// Update an instance, loaded from the server
 Contact.load(id, {
 	success: function (contact) {
 		contact.set("LastName", "Maxwell");
@@ -116,32 +115,31 @@ Contact.load(id, {
 ...
 
 
-// DELETE
+// Delete an instance
 Contact.load(id, {
 	success: function (contact) {
 		contact.destroy()
 	}
 });
-
-
+...
 ```
 
 Using the Contact model you can now easily define a Store to fetch multiple items: 
 
 ```js
 
+
 var store = new Ext.data.Store({
 	model: 'Contact'
 });
 
 store.load()
-
 ```
 
 
 ## <a name="limitations"/>Known limitations
 
-* only works with Sencha Touch 1.1.x. Will not work with Ext 3.x/4.x, due to differences in Ext data models.  I plsn to port to ExtJs once ExtJs 4.1 is out of Beta.
+* only works with Sencha Touch 1.1.x. Will not work with Ext 3.x/4.x, due to differences in Ext data model implementation.  I plan to port to ExtJs once ExtJs 4.1 is out of Beta.
 * store.sync() doesn't work correctly due to bugs in ST. Please use Ext.data.Model CRUD functions instead
 * will work on SharePoint 2010 only (ListData.svc is available on SP2010 only)
 * requires authenticated users: ListData.svc is not allowed for anonymous users
