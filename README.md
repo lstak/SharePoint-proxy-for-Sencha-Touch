@@ -1,5 +1,5 @@
-﻿# SharePoint proxies for Sencha Touch
-
+# SharePoint proxies for Sencha Touch #
+This repository contains 2 data proxies to work with SharePoint lists and libraries from Sencha Touch.
 
 ## Ext.ux.SP.ODataProxy
 Ext.ux.SP.ODataProxy is a OData proxy for Sencha Touch. It is designed to let Sencha Touch access SharePoint data using the 
