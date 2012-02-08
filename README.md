@@ -1,11 +1,11 @@
 # SharePoint proxies for Sencha Touch #
 This repository contains 2 data proxies to work with SharePoint lists and libraries from Sencha Touch. 
-1. The [OData proxy] uses the SharePoint ListData.svc REST service which is based on [OData](http://www.odata.org). 
-2. The [Soap proxy] uses 
+1.   The [OData proxy](#odataproxy) uses the SharePoint ListData.svc REST service which is based on [OData](http://www.odata.org). 
+2.   The [Soap proxy] uses 
 
 
 
-## ODataProxy for SharePoint [OData proxy] ##
+## <a name="odataproxy"/>ODataProxy for SharePoint  ##
 Ext.ux.SP.ODataProxy is an OData proxy for Sencha Touch. It is designed to let Sencha Touch access SharePoint data using the SharePoint ListData.svc REST service which is based on [OData](http://www.odata.org). You may use it for other OData sources.
 
 
