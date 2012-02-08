@@ -1,6 +1,7 @@
-﻿Ext.ux.SP.ODataProxy
-===================
+﻿# SharePoint proxies for Sencha Touch
 
+
+## Ext.ux.SP.ODataProxy
 Ext.ux.SP.ODataProxy is a OData proxy for Sencha Touch. It is designed to let Sencha Touch access SharePoint data using the 
 SharePoint ListData.svc REST service which is based on [OData](http://www.odata.org). You may use it for other OData sources.
 
@@ -13,7 +14,7 @@ Ext.ux.ODataProxy features:
 * partial updates: only changed attributes are sent to the server during an update
 
 
-Contents
+### Contents
 --------
 * [Getting started](#installation)
 * [Examples](#examples)
@@ -21,7 +22,7 @@ Contents
 
 
 
-Getting started
+### Getting started
 ---------------
 Because of the Same Origin Policy, your html file must be served from the same domain as the SharePoint site you want to access. 
 You can place your html file containing your app on the server file system or in an asset library. 
@@ -58,7 +59,7 @@ example.apsx:
 
 ```
 
-## <a name="examples"/>Examples
+### <a name="examples"/>Examples
 
 Now let's look at some examples how you can use the SharePoint proxy. In these examples we will assume you have 
 a subsite '/teamsite' in which you have 
