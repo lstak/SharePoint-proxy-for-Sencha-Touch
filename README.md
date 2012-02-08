@@ -1,7 +1,7 @@
-﻿Ext.ux.ODataProxy
+﻿Ext.ux.SP.ODataProxy
 ===================
 
-Ext.ux.ODataProxy is a OData proxy for Sencha Touch. It is designed to let Sencha Touch access SharePoint data using the 
+Ext.ux.SP.ODataProxy is a OData proxy for Sencha Touch. It is designed to let Sencha Touch access SharePoint data using the 
 SharePoint ListData.svc REST service which is based on [OData](http://www.odata.org). You may use it for other OData sources.
 
 
