@@ -22,72 +22,19 @@
 	</SharePoint:UIVersionedContent>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderId="PlaceHolderPageImage" runat="server"><SharePoint:AlphaImage ID=onetidtpweb1 Src="/_layouts/images/wiki.png" Width=145 Height=54 Alt="" Runat="server" /></asp:Content>
-<asp:Content ID="Content5" ContentPlaceHolderId="PlaceHolderAdditionalPageHead" runat="server">
-	
-    <link href="ext-all.css" rel="stylesheet" type="text/css">
+<asp:Content ID="Content5" ContentPlaceHolderId="PlaceHolderAdditionalPageHead" runat="server">    
 
     <meta name="CollaborationServer" content="SharePoint Team Web Site" />
 	<script type="text/javascript">
 	    var navBarHelpOverrideKey = "WSSEndUser";
 	</script>
 
-    <script type="text/javascript" src="ext-all-dev.js"></script>
-    <script type="text/javascript" src="odataproxy.js"></script>
+    <link href="js/ext-4.1.1.a-gpl/resources/css/ext-all.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript">
+    <script type="text/javascript" src="js/ext-4.1.1.a-gpl/ext-all.js"></script>
 
-        Ext.define('My.data.Client', {
-            extend: 'Ext.data.Model',
-            fields: ['Id', 'Email'],
-            idProperty: 'Id'
-        });
-
-        Ext.define('My.data.Store', {
-            extend: 'Ext.data.Store',
-            model: 'My.data.Client',
-
-            proxy: {
-                type: 'odata',
-                site: 'localhost',
-                list: 'Clients'
-            }
-        });
-
-
-
-        Ext.onReady(function () {
-            var grid,
-                store = new My.data.Store();
-
-            store.load({
-                callback: function (store, records) {
-                    console.log(store);
-                }
-            });
-
-            grid = Ext.create('Ext.grid.Panel', {
-                store: store,
-                columns: [
-                    {
-                        header: 'ID',
-                        dataIndex: 'Id',
-                        width: 100
-                    },
-                    {
-                        header: 'Email',
-                        dataIndex: 'Email',
-                        flex: 1                        
-                    }
-                ],
-                renderTo: 'ctl00_MSO_ContentDiv',
-                width: 550,
-                height: 400,
-                title: 'Clients'
-            });
-
-        });
-
-    </script>
+    <script type="text/javascript" src="js/plants/odataproxy.js"></script>
+    <script type="text/javascript" src="js/plants/app.js"></script>
 
 	<SharePoint:RssLink ID="RssLink1" runat="server" />
 	<SharePoint:UIVersionedContent ID="UIVersionedContent2" UIVersion="4" runat="server"><ContentTemplate>

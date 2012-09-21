@@ -26,7 +26,7 @@ describe("odata proxy", function () {
 
             url = proxy.buildUrl(request);
 
-            expect(url).toBe("http://test");
+            expect(url).toBe("http://test?$inlinecount=allpages");
         });
     });
 
@@ -40,7 +40,7 @@ describe("odata proxy", function () {
         it("builds odata url ponting to the list", function () {
             url = proxy.buildUrl(request);
 
-            expect(url).toBe("http://site/_vti_bin/listdata.svc/list");
+            expect(url).toBe("http://site/_vti_bin/listdata.svc/list?$inlinecount=allpages");
         });
 
         describe("and operation id", function () {
@@ -49,7 +49,7 @@ describe("odata proxy", function () {
 
                 url = proxy.buildUrl(request);
 
-                expect(url).toBe("http://site/_vti_bin/listdata.svc/list(1)");
+                expect(url).toBe("http://site/_vti_bin/listdata.svc/list(1)?$inlinecount=allpages");
             });
         });
 
@@ -69,7 +69,7 @@ describe("odata proxy", function () {
 
                 url = proxy.buildUrl(request);
 
-                expect(url).toBe("http://site/_vti_bin/listdata.svc/list(1)");
+                expect(url).toBe("http://site/_vti_bin/listdata.svc/list(1)?$inlinecount=allpages");
             });
         });
 
@@ -119,7 +119,7 @@ describe("store with odata proxy", function () {
 
             store.load();
 
-            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list');
+            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list?$inlinecount=allpages');
             expect(sutReq.params.$orderby).toBe('name');
         });
 
@@ -149,7 +149,7 @@ describe("store with odata proxy", function () {
 
             store.load();
 
-            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list');
+            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list?$inlinecount=allpages');
             expect(sutReq.params.$orderby).toBe('name,zipcode desc');
         });
 
@@ -175,7 +175,7 @@ describe("store with odata proxy", function () {
 
             store.load();
 
-            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list');
+            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list?$inlinecount=allpages');
             expect(sutReq.params.$filter).toBe('name eq "tim"');
         });
 
@@ -201,7 +201,7 @@ describe("store with odata proxy", function () {
 
             store.load();
 
-            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list');
+            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list?$inlinecount=allpages');
             expect(sutReq.params.$filter).toBe('age eq 20');
         });
 
@@ -231,7 +231,7 @@ describe("store with odata proxy", function () {
 
             store.load();
 
-            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list');
+            expect(sutReq.url).toBe('site/_vti_bin/listdata.svc/list?$inlinecount=allpages');
             expect(sutReq.params.$filter).toBe('name eq "Tim" and age eq 20');
         });
 
