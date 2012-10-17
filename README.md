@@ -1,338 +1,61 @@
-# SharePoint proxies for Sencha Touch #
-This repository provides 2 data proxies to access SharePoint lists and libraries from a Sencha Touch application. 
+# SharePoint proxy for ExtJS 4.1 #
+OData proxy is a specialization of the RestProxy that ships with ExtJS 4.x which constructs the actions and the urls to work against the odata service available in SharePoint 2010.
+Once you have referenced the odataproxy.js in your page, you configure it with the site and list you want to work against:
 
-1. The [OData proxy](#odataproxy) uses the SP ListData.svc REST service which is based on OData. 
-2. The [SOAP proxy](#soapproxy) uses SP Web Services.
-
-
-
-## <a name="odataproxy"/>SharePoint ODataProxy  ##
-Ext.ux.SP.ODataProxy is an OData proxy for Sencha Touch. It is designed to let Sencha Touch access SharePoint data using the SharePoint ListData.svc REST service which is based on [OData](http://www.odata.org). You may use it for other OData sources.
-
-Ext.ux.ODataProxy features:
-
-* create, read, update and delete SharePoint items as Sencha Touch models
-* fetch multiple SharePoint items from a list in a Sencha Touch store
-* remote filtering and sorting
-* JSON payloads
-* partial updates: only changed attributes are sent to the server during an update
-
-
-
-### Getting started
-Because of the Same Origin Policy, your html file must be served from the same domain as the SharePoint site you want to access. 
-You can place your html file containing your app on the server file system or in an asset library. 
-
-Tip: if you are using SharePoint online (Office365), you will notice that when you select a .html file in a doc library, it is presented as a download, not opened in the browser. This is due
-to SharePoint setting in SP online which can't be changed.
-As a workaround, just use an .aspx file extension, instead of .html. This way, you can start your single page SharePoint application 
-from a file in an asset library. 
-
-
-Here is a basic file which contains all the html to get started. The example.js file contains example code for all CRUD operations.
-
-example.apsx:
- 
-```html
-
-<!DOCTYPE html>
-<html>
-	<head>
-	<title>SharePoint OData proxy example</title>
-
-	<!-- Sencha Touch include -->
-	<script src="sencha-touch.js"></script> 
-
-	<!-- app includes -->
-	<script src="odataproxy.js"></script>
-	<script src="odata_example.js"></script>
-	</head>
-	<body>
-	</body>
-</html>
 ```
-
-### <a name="examples"/>Examples
-
-Now let's look at some examples how you can use the SharePoint proxy. In these examples we will assume you have 
-a subsite '/teamsite' in which you have 
-created a Contacts list based on the standard contacts list template. 
-
-First we need to define the Model. In this example we will connect to a SharePoint list based on Contacts list template 
-
-```js
-var Contact = Ext.regModel('Contact', {
-  fields: [
-      // please note CamelCase convention for SharePoint column names
-      { name: 'Id', type: 'int' },
-      'LastName',
-      'FirstName'
-    ],
-
-  idProperty: 'Id',
-
-  
-  proxy: {
-	// use the special odata proxy defined in OdataProxy.js
+proxy: {
     type: 'odata',
-
-    // the proxy will connect to the List named 'Contacts' in the /teamsite subsite
-    site: '/teamsite',
-	list: 'Contacts'
-  }
-});
+    site: 'http://localhost',
+    list: 'Plants'
+}
 ```
 
-We can now use the CRUD operations on the Contact data model: 
+Everything else is a standard ExtJS code. See the Sample section for more information and code.
 
-```js
+This proxy is for ExtJS version 4.1 or newer. For Sencha Touch proxy go to:
+https://github.com/lstak/SharePoint-proxy-for-Sencha-Touch.
+See the History section for more information.
 
+## Sample ##
+The easiest way to see the proxy in action is to upload the content of the Sample folder into a document library and browse to the sample.aspx page.
+Assuming you have the list set up properly, you should see the following grid that lets you view, page, sort, add and edit list items. 
+You will also notice in the dev tools at the bottom that it executes the correct REST operations as data is being fetched, added or edited.
 
-// Create an instance
-var contact = new Contact({ LastName: 'Johnson', FirstName: 'Al' })
-contact.save();
-...
-
-
-// Read an instance from the server by id
-var id = 200;
-Contact.load(id);
-...
-
-
-// Update an instance, loaded from the server
-Contact.load(id, {
-	success: function (contact) {
-		contact.set("LastName", "Maxwell");
-		contact.save();
-	}
-});
-...
-
-
-// Delete an instance
-Contact.load(id, {
-	success: function (contact) {
-		contact.destroy()
-	}
-});
-...
-```
-
-Using the Contact model you can now easily define a Store to fetch multiple items: 
-
-```js
-
-
-var store = new Ext.data.Store({
-	model: 'Contact'
-});
-
-store.load()
-```
-
-
-### <a name="limitations"/>Known limitations
-
-* only works with Sencha Touch 1.1.x. Will not work with Ext 3.x/4.x, due to differences in Ext data model implementation.  I plan to port to ExtJs once ExtJs 4.1 is out of Beta.
-* store.sync() doesn't work correctly due to bugs in ST. Please use Ext.data.Model CRUD functions instead
-* will work on SharePoint 2010 only (ListData.svc is available on SP2010 only) 
-* requires authenticated users: using ListData.svc is not allowed for anonymous users even if the site permits anonymous users.
-
-
-## <a name="soapproxy"/>SharePoint SoapProxy
-Ext.ux.SP.SoapProxy is an SOAP proxy for Sencha Touch. It allows Sencha Touch apps access to SharePoint data using the SharePoint WebServices service. Read operations are based on the [GetListItems](http://msdn.microsoft.com/en-us/library/websvclists.lists.getlistitems.aspx) method of Lists.asmx. Create, Update and Delere operations use the [UpdateListItems](http://msdn.microsoft.com/en-us/library/websvclists.lists.updatelistitems.aspx) method. 
-
-
-Ext.ux.SP.SoapProxy features:
-
-* create, read, update and delete SharePoint items as Sencha Touch models
-* fetch multiple SharePoint items from a list in a Sencha Touch store
-* support for remote filtering and sorting
-* XML payloads
-* partial updates: only changed attributes are sent to the server during an update
-
-Differences between SOAP and OData access to SharePoint:
-
-* SOAP access supported in SP 2007 and 2010. OData only in SP 2010
-* Unauthenticated use of SP web services allowed (governed by site permission settings). Unauthenticed use of ListData.svc not allowed (even if site access is allowed for unauthenticated users).
-* SOAP uses internal field names. OData uses display names (whitespace trimmed).
-* SOAP provides PermMask (permission mark) info. OData does not.
-
-
-
-### Getting started
-Similar to the description above you need to have an .html (or .aspx) file containing the scripts for your application. Here we include the soapproxy.js file.
-
-
-example.apsx:
+![SharePoint sample page](https://raw.github.com/tstojecki/SharePoint-proxy-for-Sencha-Touch/master/readme/img/sp-extjs-plants.png "SharePoint" "SharePoint sample page")
  
-```html
+The folder contains all the dependencies such as the ExtJS 4.1.1 GPL library, css and images.
+If you organize the files in a different way, make sure you update the sample.aspx file accordingly.
 
+The sample was modeled after Sencha's Cell Editing Grid example http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/cell-editing.html
+that uses a custom SharePoint list as a data store. 
 
-<!DOCTYPE html>
-<html>
-	<head>
-	<title>SharePoint Soap proxy example</title>
-
-	<!-- Sencha Touch include -->
-	<script src="sencha-touch.js"></script> 
-
-	<!-- app includes -->
-	<script src="soapproxy.js"></script>
-	<script src="soap_example.js"></script>
-	</head>
-	<body>
-	...
-	</body>
-</html>
-
+The Plants list contains the following columns:
+```
+Common Name - Single line of text
+Light -	Choice
+Price -	Currency
+Available -	Date and Time
+Indoor - Yes/No
 ```
 
-### Examples
+### Details ###
+The ExtJS application code is contained in js/plants/app.js, which is referenced within the AdditionalPageHead placeholder of the sample.aspx page.
+The grid references the store which in turn references the odata proxy.
 
-Now let's look at some examples how you can use the SharePoint SOAP proxy. Again we will assume you have 
-a subsite '/teamsite' in which you have created a Contacts list based on the standard contacts list template. 
+<link href="js/ext-4.1.1.a-gpl/resources/css/ext-all.css" rel="stylesheet" type="text/css">
 
-First we need to define the Model. 
+<script type="text/javascript" src="js/ext-4.1.1.a-gpl/ext-all.js"></script>
 
-```js
-var Contact = Ext.regModel('Contact', {
-  fields: [
-      // please note CamelCase convention for SharePoint column names
-      { name: 'ID', type: 'int' },
-      'Title',
-      'FirstName'
-    ],
+<script type="text/javascript" src="js/plants/odataproxy.js"></script>
+<script type="text/javascript" src="js/plants/app.js"></script>
 
-  idProperty: 'ID',
+The proxy points to the Plants list under the default site - http://localhost.
+Make sure you adjust the settings as needed per your local environment. 
+The settings (site and list) are part of the proxy config as shown above.
 
-  
-  proxy: {
-	// use the special SOAP proxy defined in soappproxy.js
-    type: 'soap',
-
-    // the proxy will connect to the List named 'Contacts' in the /teamsite subsite
-    site: '/teamsite',
-	list: 'Contacts'
-	// optionally, you can specify a view by its GUID
-	// otherwise the default view is used
-	//view: '{VIEW-GUID}'
-  }
-});
-```
-Please note the differences with the OData example:
-
-* use 'ID' (all caps) instead of 'Id'
-* use internal field names, i.e. 'Title' instead of 'LastName'
-
-We can now use the CRUD operations on the Contact data model: 
-
-```js
-
-// create new model instance
-var contact = new Contact({
-    Title: 'Davis',
-    FirstName: 'John'
-})
-
-// save it to the server, creating a new SP item
-contact.save({
-	// after server response is received, the callback function is executed
-    callback: function (record1, operation) {
-        console.log('Record created', record1, operation);
-
-		// change an attribute
-        record1.set('FirstName', 'John-Paul');
-
-		// persist change to the server 
-        record1.save({
-            callback: function (record2, operation) {
-                console.log('Record changed', record2, operation);
-
-				// now let's delete the item from the server
-                record2.destroy({
-                    callback: function (record3, operation) {
-                        console.log('Record destroyed', record3, operation);
-                    }
-                })
-            }
-        })
-
-
-    }
-})
-
-
-// here's how to load a SP Item by ID:
-Contact.load(230, {
-    success: function (record, operation) {
-        console.log('Single record load', record, operation);
-    }
-})
-
-```
-
-Using the Contact model you can now easily define a Store to fetch multiple items: 
-
-```js
-
-
-var store = new Ext.data.Store({
-	model: 'Contact'
-});
-
-store.load()
-```
-
-Remote sorting and filtering is possible, by defining sorters and filters as described in Sencha Touch documentation. You must set remoteSort and remoteFilter to true, otherwise the store will use local sorting and filtering.
-
-```js
-
-
-var sorters = [{
-    property: 'Title',
-    direction: 'DESC'
-}, {
-    property: 'FirstName',
-    direction: 'DESC'
-}];
-
-var filters = [{
-    property: 'Title',
-    value: 'Heisenberg'
-}]
-
-
-var store = new Ext.data.Store({
-    model: 'Contact',
-    sorters: sorters,
-    filters: filters,
-    remoteSort: true,
-    remoteFilter: true
-});
-
-
-store.load();
-```
-
-
-
-### Known limitations
-
-* only works with Sencha Touch 1.1.x. Will not work with Ext 3.x/4.x, due to differences in Ext data model implementation.  I plan to port to ExtJs once ExtJs 4.1 is out of Beta.
-* store.sync() doesn't work correctly due to bugs in ST. Please use Ext.data.Model CRUD functions instead.
-* paging not yet implemented
-
-
-
-
-
-
-
-
-Hopefully this is enough to get you started!
-
-
-
-
+## History ##
+This project was initially forked off of SharePoint proxy for Sencha Touch: 
+https://github.com/lstak/SharePoint-proxy-for-Sencha-Touch which provides an odata proxy for Sencha Touch. 
+I have initiated a pull request to host the ExtJS 4.1 proxy there, but haven't heard back so far.
+I am still mulling it over as to whether it is a good idea to host it there, mainly I wanted to make sure the author of the original library gets the credit he deserves.
+If I don't hear back though, I will likely create another repo or rename this one so I doesn't imply Sencha Touch in its name.
